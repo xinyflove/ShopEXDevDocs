@@ -1,4 +1,4 @@
-# 数据库操作
+# db数据库操作
 
  具体操作在`Doctrine\DBAL\Connection`类Connection中
 
