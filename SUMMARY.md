@@ -6,4 +6,5 @@
 * [db数据库操作](shu-ju-ku-cao-zuo.md)
 * [数据动态扩展\(dbeav app\)model函数](shu-ju-dong-tai-kuo-zhan-dbeav-appmodel-han-shu.md)
 * [API开发](api-kai-fa.md)
+* [config配置文件](config-pei-zhi-wen-jian.md)
 
