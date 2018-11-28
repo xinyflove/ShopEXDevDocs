@@ -11,4 +11,12 @@
 * [定时任务](ding-shi-ren-wu.md)
 * [数据表定义](shu-ju-biao-ding-yi.md)
 * [finder的使用](finder-de-shi-yong.md)
+* [签名算法](qian-ming-suan-fa.md)
+* [视图相关的类和函数](shi-tu-xiang-guan-de-lei-he-han-shu.md)
+* [创建一个对象](chuang-jian-yi-ge-dui-xiang.md)
+* [类的自动载入机制](lei-de-zi-dong-zai-ru-ji-zhi.md)
+* [常用函数](chang-yong-han-shu.md)
+* [屏蔽需要登录shopexID步骤](ping-bi-xu-yao-deng-lu-shopexid-bu-zhou.md)
+* [定界符函数](ding-jie-fu-han-shu.md)
+* [主题挂件开发](zhu-ti-gua-jian-kai-fa.md)
 
