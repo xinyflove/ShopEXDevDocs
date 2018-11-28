@@ -164,7 +164,7 @@ class testapp_ctl_test extends desktop_controller{
 
 `allow_detail_popup`: 是否显示查看列中的弹出查看图标（图 【4区】第二个图标）\(值ture/false\)默认false
 
-有无需看自定义finder类中是否有detail开头的变量和对应的方法。
+有无需看自定义finder类中是否有`$detail`开头的变量和对应的方法。
 
 这个具体会在`自定义finder类`中讲解。
 
@@ -308,9 +308,126 @@ addon: 此过滤条件下有多少条记录
 
 href: 此tab的链接地址
 
+## 自定义finder类
 
+在实际业务中，会出现行数据的操作、查看等操作，这样就需要我们自己定义finder了。这里以我做的app sysmall为例：
 
+step1. 在sysmall中添加services.xml文件，并写入:
 
+```text
+<services>
+
+    <service id="desktop_finder.sysmall_mdl_item">
+        <class>sysmall_finder_item</class>
+    </service>
+    
+</services>
+```
+
+step2. 在sysmall/lib/finder/目录下创建item.php文件，并写入:
+
+```text
+class sysmall_finder_item {
+    public $column_edit = '操作';
+    public $column_edit_order = 2;
+    public $column_edit_width = 200;
+
+    /**
+     * 编辑链接
+     * @param $colList
+     * @param $list
+     */
+    public function column_edit(&$colList, $list){
+        foreach($list as $k=>$row)
+        {
+            $editUrl = '?app=sysmall&ctl=item&act=check&finder_id='.$_GET['_finder']['finder_id'].'&p[0]='.$row['item_id'];
+            $editTar = 'target="dialog::{title:\''.app::get('sysmall')->_('审核').'\', width:400, height:250}"';
+            $html = '<a href="'.$editUrl.'" '.$editTar.'>'.app::get('sysmall')->_('审核').'</a>';
+
+            $colList[$k] = $html;
+        }
+    }
+
+    public $column_image_default_id = "缩略图";
+    public $column_image_default_id_order = 1;
+
+    /**
+     * @param $colList
+     * @param $list
+     */
+    public function column_image_default_id(&$colList, $list)
+    {
+        foreach($list as $k=>$row)
+        {
+            if($row['item_id'])
+            {
+                $item = app::get('sysitem')->model('item')
+                    ->getRow('image_default_id', array('item_id'=>$row['item_id']));
+                if($item['image_default_id'])
+                {
+                    $src = base_storager::modifier($item['image_default_id']);
+                    $colList[$k] = "<a href='$src' class='img-tip pointer' target='_blank' onmouseover='bindFinderColTip(event);'><span><i class='fa fa-picture-o'></i></span></a>";
+                }
+            }
+        }
+    }
+
+    public $detail_basic = '基本信息';
+    public function detail_basic($id)
+    {
+        $where['mall_item_id'] = $id;
+        $where['fields'] = "item_id";
+        $mall_item = app::get('sysmall')->rpcCall('mall.item.get',$where);//获取选货商品详情数据
+
+        $params['item_id'] = $mall_item['item_id'];
+        $params['fields'] = "*,item_store";
+        //$params['fields'] = "*,sku,item_store,item_status,item_count,item_desc,item_nature,spec_index";
+        $pagedata = app::get('sysitem')->rpcCall('item.get',$params);//var_dump($pagedata);die;
+
+        // 获取运费模板开始
+        $tmpParams = array(
+            'shop_id' => $pagedata['shop_id'],
+            'template_id' => $pagedata['dlytmpl_id'],
+            'status' => 'on',
+            'fields' => 'shop_id,name,template_id',
+        );
+        $templateInfo = app::get('sysitem')->rpcCall('logistics.dlytmpl.get',$tmpParams);
+        $pagedata['templateName'] = $templateInfo['name'];
+        // 获取运费模板结束
+
+        // 获取所属分类开始
+        $catParams = array(
+            'shop_id' => $pagedata['shop_id'],
+            'cat_id' =>$pagedata['cat_id'],
+            'fields' => 'cat_id,cat_name,is_leaf,parent_id,level');
+        $pagedata['catInfo'] = app::get('sysitem')->rpcCall('category.cat.get.data',$catParams);
+        // 获取所属分类结束
+
+        // 获取店铺分类开始
+        $shop_cat_id = explode(',',$pagedata['shop_cat_id']);
+        $shopCatParams = array(
+            'shop_id' => $pagedata['shop_id'],
+            'cat_id' => $shop_cat_id['1'],
+            'fields' => 'cat_id,cat_name,is_leaf,parent_id,level'
+        );
+        $shopCatData = app::get('sysitem')->rpcCall('shop.cat.get',$shopCatParams);
+        foreach ($shopCatData as $key => $value) {
+            $pagedata['childCatName'] = $value['cat_name'];
+            $pagedata['parent_id'] = $value['parent_id'];
+            if($value['parent_id']){
+                $pagedata['parentCatInfo'] = app::get('sysitem')->rpcCall('shop.cat.get',array('shop_id' => $pagedata['shop_id'],'cat_id'=>$value['parent_id'],'fields'=>'cat_name'));
+            }
+        }
+        // 获取店铺分类结束
+
+        return view::make('sysmall/item/detail.html',$pagedata)->render();
+    }
+}
+```
+
+step3. 更新一下app 出现了 操作、缩略图、查看 列  
+以 `column`开头的变量和方法是生成**列**数据的；  
+以 `detail`开头的变量和方法是生成**查看列**数据的；
 
 ### 
 
