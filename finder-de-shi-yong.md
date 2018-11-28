@@ -122,57 +122,142 @@ class testapp_ctl_test extends desktop_controller{
 
 **以下是内置控制项**
 
+封装类在`/desktop/lib/finder/builder/view.php`文件中
+
 ### use\_buildin\_set\_tag
 
-`use_buildin_set_tag`: 是否显示设置标签操作\(值ture/false\)
+`use_buildin_set_tag`: 是否显示设置标签操作\(值ture/false\)默认false
 
 ### use\_buildin\_tagedit
 
-`use_buildin_tagedit`: 是否显示标签管理操作\(值ture/false\)
+`use_buildin_tagedit`: 是否显示标签管理操作\(值ture/false\)默认true
 
 ### use\_buildin\_delete
 
-`use_buildin_delete`: 是否显示删除操作\(值ture/false\)
+`use_buildin_delete`: 是否显示删除操作\(值ture/false\)默认true
 
 ### use\_buildin\_export
 
-`use_buildin_export`: 是否显示导出操作\(值ture/false\)
+`use_buildin_export`: 是否显示导出操作\(值ture/false\)默认false
 
 ### use\_buildin\_import
 
-`use_buildin_import`: 是否显示导入操作\(值ture/false\)
+`use_buildin_import`: 是否显示导入操作\(值ture/false\)默认false
+
+### use\_buildin\_filter
+
+`use_buildin_filter`: 是否显示高级筛选按钮 图中【6区】\(值ture/false\)默认false
+
+### use\_buildin\_setcol
+
+`use_buildin_setcol`: 是否显示列表配置项\(值ture/false\)默认true
+
+### use\_buildin\_refresh
+
+`use_buildin_refresh`: 是否显示刷新操作\(列表配置项旁\)\(值ture/false\)默认true
+
+### use\_buildin\_selectrow
+
+`use_buildin_selectrow`: 是否显示每条记录前的复选按钮\(值ture/false\)默认true
+
+### allow\_detail\_popup
+
+`allow_detail_popup`: 是否显示查看列中的弹出查看图标（图 【4区】第二个图标）\(值ture/false\)默认false
+
+### use\_save\_filter
+
+`use_save_filter`:是否支持保存搜索结果功能\(值ture/false\)默认true
 
 ### base\_filter
 
 `base_filter`： 对列表数据进行过滤筛选，参照上面格式\(值 数组\)
 
+```text
+'base_filter'=>array( //对列表数据进行过滤筛选
+    'order_refer'=>'local',
+    'disabled'=>'false',
+    '字段'=>'值'
+),
+```
+
 ### top\_extra\_view
 
 `top_extra_view` 在finder列表头部增加其他自定义html显示,如`top_extra_view=>array('app名称'=>'html模版页面路径');`
 
+例如商家文章
+
+控制器部分代码：
+
+```php
+$top_extra_view = array('syscontent'=>'syscontent/admin/article/shop_header.html');
+        // 准备数据
+        $getData = input::get ();
+        $searchParams = array ();
+        if($getData['shop_id'] && $getData['shop_id']>0)
+        {
+            $searchParams['shop_id'] = $this->pagedata ['shop_id'] = $getData['shop_id'];
+        }else{
+            $searchParams['shop_id']=$this->shopAuth;
+        }
+        /*modify_201712051415_by_wudi_shopauth_end*/
+        if($getData['keyword'])
+        {
+            $searchParams['title|has'] = $this->pagedata ['keyword'] = $getData['keyword'];
+        }
+        
+        return $this->finder('syscontent_mdl_article_shop', array(
+                'title'=>app::get('syscontent')->_('文章列表'),
+                'use_buildin_filter' => false,
+                'use_buildin_delete'=>true,
+                'use_buildin_refresh' => false,
+                'use_buildin_setcol' => false,
+                'top_extra_view'=>$top_extra_view,
+                'base_filter' =>$searchParams,
+
+        ));
+```
+
+模版代码：
+
+```markup
+<form method="post" action="<{$form_url}>" id="search-form">
+	<div class="gridlist-action">
+		<label>&nbsp;&nbsp;文章标题：</label>
+		<input type="text" name="s_k" value="<{$keyword}>" />
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<label>&nbsp;&nbsp;商家选择：</label>
+		<{html_options name='shop_id' options=$options selected=$shop_id}> 
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<{button type="button" id="search" app="desktop" label="检索"|t:'sysclearing'}>
+		&nbsp;&nbsp;&nbsp;&nbsp;
+	</div>
+</form>
+<script>
+var search = $("search");
+var form = $("search-form");
+search.addEvent('click',function(){
+	var href = form.get('action');
+	var shopId,keyword;
+	shopId = $$("select[name='shop_id']").get('value');
+	keyword = $$("input[name='s_k']").get('value');
+	var locationUrl = href+'&keyword='+keyword+'&shop_id='+shopId;
+	W.page(locationUrl);
+});
+
+</script>
+```
+
+效果如图：
+
+![](.gitbook/assets/finder_top_extra_view.png)
+
 ### use\_view\_tab
 
-`use_view_tab`: 是否显示finder中的tab（如果有），有无需看控制器中是否有`_views`方法。
-
-### use\_buildin\_filter
-
-`use_buildin_filter`: 是否使用高级筛选 图中【6区】
-
-### use\_buildin\_refresh
-
-`use_buildin_refresh`: 是否显示刷新操作\(列表配置项旁\)
-
-### use\_buildin\_setcol
-
-`use_buildin_setcol`: 是否显示列表配置项
-
-### use\_buildin\_selectrow
-
-`use_buildin_selectrow`: 是否显示每条记录前的复选按钮
-
-### allow\_detail\_popup
-
-`allow_detail_popup`: 是否显示查看列中的弹出查看图标（图 【4区】第二个图标）
+`use_view_tab`: 是否显示finder中的tab（如果有），有无需看控制器中是否有`_views`方法，\(值ture/false\)默认true。
 
 
+
+### 
+
+### 
 
