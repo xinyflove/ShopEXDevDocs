@@ -72,35 +72,105 @@ class testapp_ctl_test extends desktop_controller{
 
  2.第二个参数是数组，这个数组内涵相当丰富，解释如下：
 
+### title
+
 `title`: 标题\(图中的【1区】显示出来的内容\)
+
+### actions
 
 `actions`: 自定义控制项\(图中的【2区】里的内容除了显示内置的操作以外，还可以自定义添加新操作，参照上面格式。\)
 
-以下是内置控制项
+自定义控制项有两种格式：
+
+1.自定义弹窗，格式如下
+
+```text
+'actions' => array(
+	array(
+		'label'=>app::get('testapp')->_('按钮名称'),
+		'href'=>'?app=testapp&ctl=seller&act=editPage',
+		'target'=>"dialog::{title:'".app::get('testapp')->_('弹窗标题')."',width:500,height:380}"
+	),
+)
+```
+
+`label`:按钮名称
+
+`href`:自定义弹窗链接
+
+`target`:弹窗参数
+
+                `title`:弹窗标题，`width`:弹窗宽度，`height`:弹窗高度
+
+2.自定义确认提示弹窗
+
+```text
+'actions' => array(
+	array(
+		'label'=>app::get('testapp')->_('删除'),
+		'submit' => '?app=testapp&ctl=test&act=doDelete',
+		'confirm' => app::get('testapp')->_('确定要删除选中用户？'),
+	),
+)
+```
+
+`label`:按钮名称
+
+`submit`:按钮链接
+
+`confirm`:确认提示文字
+
+**以下是内置控制项**
+
+### use\_buildin\_set\_tag
 
 `use_buildin_set_tag`: 是否显示设置标签操作\(值ture/false\)
 
+### use\_buildin\_tagedit
+
 `use_buildin_tagedit`: 是否显示标签管理操作\(值ture/false\)
+
+### use\_buildin\_delete
 
 `use_buildin_delete`: 是否显示删除操作\(值ture/false\)
 
+### use\_buildin\_export
+
 `use_buildin_export`: 是否显示导出操作\(值ture/false\)
+
+### use\_buildin\_import
 
 `use_buildin_import`: 是否显示导入操作\(值ture/false\)
 
+### base\_filter
+
 `base_filter`： 对列表数据进行过滤筛选，参照上面格式\(值 数组\)
+
+### top\_extra\_view
 
 `top_extra_view` 在finder列表头部增加其他自定义html显示,如`top_extra_view=>array('app名称'=>'html模版页面路径');`
 
+### use\_view\_tab
+
 `use_view_tab`: 是否显示finder中的tab（如果有），有无需看控制器中是否有`_views`方法。
+
+### use\_buildin\_filter
 
 `use_buildin_filter`: 是否使用高级筛选 图中【6区】
 
+### use\_buildin\_refresh
+
 `use_buildin_refresh`: 是否显示刷新操作\(列表配置项旁\)
+
+### use\_buildin\_setcol
 
 `use_buildin_setcol`: 是否显示列表配置项
 
+### use\_buildin\_selectrow
+
 `use_buildin_selectrow`: 是否显示每条记录前的复选按钮
+
+### allow\_detail\_popup
 
 `allow_detail_popup`: 是否显示查看列中的弹出查看图标（图 【4区】第二个图标）
 
