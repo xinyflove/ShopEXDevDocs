@@ -10,4 +10,5 @@
 * [模本文件](mo-ben-wen-jian.md)
 * [定时任务](ding-shi-ren-wu.md)
 * [数据表定义](shu-ju-biao-ding-yi.md)
+* [finder的使用](finder-de-shi-yong.md)
 
