@@ -164,6 +164,10 @@ class testapp_ctl_test extends desktop_controller{
 
 `allow_detail_popup`: 是否显示查看列中的弹出查看图标（图 【4区】第二个图标）\(值ture/false\)默认false
 
+有无需看自定义finder类中是否有detail开头的变量和对应的方法。
+
+这个具体会在`自定义finder类`中讲解。
+
 ### use\_save\_filter
 
 `use_save_filter`:是否支持保存搜索结果功能\(值ture/false\)默认true
@@ -255,9 +259,58 @@ search.addEvent('click',function(){
 
 `use_view_tab`: 是否显示finder中的tab（如果有），有无需看控制器中是否有`_views`方法，\(值ture/false\)默认true。
 
+```text
+/**
+* 列表tab
+* @return array
+*/
+public function _views()
+{
+  $subMenu = array(
+      0=>array(
+          'label'=>app::get('sysmall')->_('待审核'),
+          'optional'=>false,
+          'filter'=>array(
+              'status'=>'pending',
+          ),
+      ),
+      1=>array(
+          'label'=>app::get('sysmall')->_('审核通过'),
+          'optional'=>false,
+          'filter'=>array(
+              'status'=>'onsale',
+          ),
+
+      ),
+      2=>array(
+          'label'=>app::get('sysmall')->_('审核驳回'),
+          'optional'=>false,
+          'filter'=>array(
+              'status'=>'refuse',
+          ),
+      ),
+      3=>array(
+          'label'=>app::get('sysmall')->_('全部'),
+          'optional'=>false,
+      ),
+  );
+  return $subMenu;
+}
+```
+
+label: tab的标题文字
+
+optional: 此tab是否可选
+
+filter: 此tab的过滤条件
+
+addon: 此过滤条件下有多少条记录
+
+href: 此tab的链接地址
 
 
-### 
+
+
 
 ### 
 
