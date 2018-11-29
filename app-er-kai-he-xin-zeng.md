@@ -2,7 +2,7 @@
 
 ## app应用二开
 
-一般禁止在 `app/` 目录进行原有的app二次开发,默认二次开发目录为 `custom/`,不要把要二次开发的原有app目录整个赋值到custom目录下，只 把需要修改的文件复制到对应位置进行修改开发。
+**不建议**在 `app/` 目录进行原有的app二次开发，默认二次开发目录为 `custom/`，不要把要二次开发的原有app目录整个赋值到custom目录下，只把需要修改的文件复制到对应位置进行修改开发。
 
 例如:我们要修改`app/sysitem/controller/admin/item.php`文件,把此文件复制到`custom/sysitem/controller/admin/item.php`进行修改 开发。
 
