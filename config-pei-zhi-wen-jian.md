@@ -37,3 +37,17 @@ return array(
 );
 ```
 
+## 配置文件作用
+
+### apis.php
+
+定义api接口路由文件
+
+### app.php
+
+参数：
+
+'debug' =&gt; true,    开启调试模式
+
+
+
