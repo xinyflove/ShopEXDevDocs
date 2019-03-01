@@ -1,6 +1,10 @@
 # 起始页
 
-写此文档的时候（2018年11月23日），已用使用商派**多用户商城\(B2B2C\)**系统开发2年半的时间了。把自己用过的东西记录下来，方便以后开发使用。
+本文档主要是针对开发**商派多用户商城（BBC）系统**经验的总结，方便自己开发使用。
 
-商派开发文档网址：[http://club.shopex.cn/doc/](http://club.shopex.cn/doc/)
+商派官方开发文档网址：[http://club.shopex.cn/doc/](http://club.shopex.cn/doc/)
+
+作者：Peak Xin
+
+邮箱：xinyflove@sina.com
 
