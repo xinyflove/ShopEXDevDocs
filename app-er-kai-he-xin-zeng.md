@@ -1,14 +1,16 @@
-# app二开和新增
+# 应用（app）二开和新增
 
-## app应用二开
+## 应用（app）二开
 
-**不建议**在 `app/` 目录进行原有的app二次开发，默认二次开发目录为 `custom/`，不要把要二次开发的原有app目录整个赋值到custom目录下，只把需要修改的文件复制到对应位置进行修改开发。
+**不建议**在 `app/` 目录，原有的app进行二次开发，默认二次开发目录为 `custom/`，不用把需要二次开发的原有app目录整个复制到custom目录下，只把需要修改的文件复制到对应位置进行修改开发。
 
-例如:我们要修改`app/sysitem/controller/admin/item.php`文件,把此文件复制到`custom/sysitem/controller/admin/item.php`进行修改 开发。
+**例如:**我们要修改`app/sysitem/controller/admin/item.php`文件,把此文件复制到`custom/sysitem/controller/admin/item.php`进行修改 开发。
 
-## 新增app应用
+如果我们想要修改默认二次开发目录，在文件 `config/compatible.php` 把 `define('CUSTOM_CORE_DIR', ROOT_DIR.'/custom');` 中的 `custom` 修改你想要定义的目录名称，然后在此目录下进行二次开发。
 
- 以app名称为notebook为例,在 `app/` 目录下创建 `app/notebook/` 目录,然后创建 `app/notebook/app.xml`文件,文件内容为:
+## 新增应用（app）
+
+ 以app名称为notebook为例，在 `app/` 目录下创建 `app/notebook/` 目录,然后创建 `app/notebook/app.xml`文件,文件内容为:
 
 ```text
 <app>
